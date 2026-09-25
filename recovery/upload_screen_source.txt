@@ -1,0 +1,233 @@
+LengthWhat is your vibe today?hintStyleVibePostVibePostStoreinstance_addPostnotifyListenerssRGBdarkfile:///workspaces/Vibepk/lib/main.dartMaterialAppfixedMaterialIconsIconHomeSearchUploadAlertsProfileBottomNavigationBarScaffoldstartDiscoverTextSizedBoxnoneTextFieldTrending Hashtags 
+#PakistanChip#VibePK#Funny#Music#TrendingWrapColumnPaddingSafeAreaNotificationsCircleAvatarWelcome to VibePK 
+Start exploring amazing videos todayListTileDividerBuild your communityFollow creators you loveTrending now 
+Discover popular videos in PakistanListViewVibePK ProfileCenterverticalfile:///workspaces/Vibepk/lib/real_video_feed.dartPageViewexpandContainercoverVideoPlayerFittedBoxGestureDetectormaterialCircularProgressIndicatorPositionedminElevatedButtonUse This SoundellipsisExpandedRowIconButton12.5KCommentstightBe the first to commentAdd a comment...245Share VibeCopy LinkSend VibeStackgalleryPlease choose a video firstfile:///workspaces/Vibepk/lib/upload_screen.darthardEdgeSnackBarYour Vibe is ready to post! 
+Create VibeShare your creativity with Pakistan 
+AspectRatioClipRRectcentermaxdownChoose a videoUpload your best short videoCaptionAdd HashtagsPOST VIBE 
+SingleChildScrollViewpackage:vibepk/main.dart@methods@constructors@fields@getters@setterspackage:vibepk/real_video_feed.dartpackage:vibepk/upload_screen.dartpackage:vibepk/vibe_post.dartpackage:vibepk/vibe_post_store.dartpackage:flutter/material.dartpackage:flutter/src/widgets/framework.dartStatelessWidgetpackage:flutter/src/foundation/key.dartKeypackage:flutter/src/widgets/widget_inspector.dart_Locationdart:coreObjectBuildContextWidgetpackage:flutter/src/material/app.dartpackage:flutter/src/material/theme_data.dartThemeData@factoriesdart:uiColorpackage:flutter/src/material/color_scheme.dartColorSchemepackage:flutter/src/material/action_icons_theme.dartActionIconThemeDataIterableAdaptationboolpackage:flutter/src/material/badge_theme.dartBadgeThemeDatapackage:flutter/src/material/banner_theme.dartMaterialBannerThemeDatapackage:flutter/src/material/bottom_app_bar_theme.dartBottomAppBarThemeDatapackage:flutter/src/material/bottom_navigation_bar_theme.dartBottomNavigationBarThemeDatapackage:flutter/src/material/bottom_sheet_theme.dartBottomSheetThemeDataBrightnesspackage:flutter/src/material/button_bar_theme.dartButtonBarThemeDatapackage:flutter/src/material/button_theme.dartButtonThemeDatapackage:flutter/src/material/card_theme.dartCardThemeDatapackage:flutter/src/material/carousel_theme.dartCarouselViewThemeDatapackage:flutter/src/material/checkbox_theme.dartCheckboxThemeDatapackage:flutter/src/material/chip_theme.dartChipThemeDatapackage:flutter/src/cupertino/theme.dartNoDefaultCupertinoThemeDatapackage:flutter/src/material/data_table_theme.dartDataTableThemeDatapackage:flutter/src/material/date_picker_theme.dartDatePickerThemeDatapackage:flutter/src/material/dialog_theme.dartDialogThemeDatapackage:flutter/src/material/divider_theme.dartDividerThemeDatapackage:flutter/src/material/drawer_theme.dartDrawerThemeDatapackage:flutter/src/material/dropdown_menu_theme.dartDropdownMenuThemeDatapackage:flutter/src/material/elevated_button_theme.dartElevatedButtonThemeDatapackage:flutter/src/material/expansion_tile_theme.dartExpansionTileThemeDataThemeExtensionpackage:flutter/src/material/filled_button_theme.dartFilledButtonThemeDatapackage:flutter/src/material/floating_action_button_theme.dartFloatingActionButtonThemeDatapackage:flutter/src/material/icon_button_theme.dartIconButtonThemeDatapackage:flutter/src/widgets/icon_theme_data.dartIconThemeDatapackage:flutter/src/material/list_tile_theme.dartListTileThemeDataMaterialTapTargetSizepackage:flutter/src/material/menu_bar_theme.dartMenuBarThemeDatapackage:flutter/src/material/menu_button_theme.dartMenuButtonThemeDatapackage:flutter/src/material/menu_theme.dartMenuThemeDatapackage:flutter/src/material/navigation_bar_theme.dartNavigationBarThemeDatapackage:flutter/src/material/navigation_drawer_theme.dartNavigationDrawerThemeDatapackage:flutter/src/material/navigation_rail_theme.dartNavigationRailThemeDatapackage:flutter/src/material/outlined_button_theme.dartOutlinedButtonThemeDatapackage:flutter/src/material/page_transitions_theme.dartPageTransitionsThemepackage:flutter/src/foundation/platform.dartTargetPlatformpackage:flutter/src/material/popup_menu_theme.dartPopupMenuThemeDatapackage:flutter/src/material/text_theme.dartTextThemepackage:flutter/src/material/progress_indicator_theme.dartProgressIndicatorThemeDatapackage:flutter/src/material/radio_theme.dartRadioThemeDatapackage:flutter/src/material/scrollbar_theme.dartScrollbarThemeDatapackage:flutter/src/material/search_bar_theme.dartSearchBarThemeDatapackage:flutter/src/material/search_view_theme.dartSearchViewThemeDatapackage:flutter/src/material/segmented_button_theme.dartSegmentedButtonThemeDatapackage:flutter/src/material/slider_theme.dartSliderThemeDatapackage:flutter/src/material/snack_bar_theme.dartSnackBarThemeDatapackage:flutter/src/material/ink_well.dartInteractiveInkFeatureFactorypackage:flutter/src/material/switch_theme.dartSwitchThemeDatapackage:flutter/src/material/tab_bar_theme.dartTabBarThemeDatapackage:flutter/src/material/text_button_theme.dartTextButtonThemeDatapackage:flutter/src/material/text_selection_theme.dartTextSelectionThemeDatapackage:flutter/src/material/time_picker_theme.dartTimePickerThemeDatapackage:flutter/src/material/toggle_buttons_theme.dartToggleButtonsThemeDatapackage:flutter/src/material/tooltip_theme.dartTooltipThemeDatapackage:flutter/src/material/typography.dartTypographyVisualDensityStatefulWidgetStateintListpackage:flutter/src/material/scaffold.dartpackage:flutter/src/material/bottom_navigation_bar.dartpackage:flutter/src/material/colors.dartMaterialAccentColorMaterialColorBottomNavigationBarTypepackage:flutter/src/widgets/bottom_navigation_bar_item.dartBottomNavigationBarItempackage:flutter/src/widgets/safe_area.dartpackage:flutter/src/widgets/basic.dartpackage:flutter/src/painting/edge_insets.dartEdgeInsetspackage:flutter/src/rendering/flex.dartCrossAxisAlignment_GrowableList_literal7package:flutter/src/widgets/text.dartpackage:flutter/src/material/text_field.dartpackage:flutter/src/material/input_decorator.dartInputDecorationpackage:flutter/src/widgets/icon.dartpackage:flutter/src/material/input_border.dartOutlineInputBorderpackage:flutter/src/painting/border_radius.dartBorderRadiuscircularpackage:flutter/src/painting/borders.dartBorderSidepackage:flutter/src/widgets/scroll_view.dartpackage:flutter/src/widgets/icon_data.dartIconDataString_literal3_literal2package:flutter/src/painting/text_style.dartTextStylepackage:flutter/src/widgets/binding.dartrunAppdart:iopackage:video_player/video_player.dartpackage:flutter/src/widgets/page_view.dartPageControllerMappackage:flutter/src/foundation/change_notifier.dartChangeNotifierpackage:flutter/src/widgets/scroll_controller.dartScrollControllernumpackage:flutter/src/painting/basic_types.dartAxisVideoPlayerControllerPatternnetworkUrlUriparsefileFiledart:asyncFutureFunctionpackage:flutter/src/rendering/stack.dartStackFit_literal1package:flutter/src/widgets/container.dartVideoPlayerValueValueNotifierpackage:flutter/src/widgets/gesture_detector.dartpackage:flutter/src/painting/box_fit.dartBoxFitSizedouble_literal5package:flutter/src/material/bottom_sheet.dartshowModalBottomSheetMainAxisSizepackage:flutter/src/material/circle_avatar.dartpackage:flutter/src/material/elevated_button.dartpackage:flutter/src/widgets/navigator.dartNavigatorpoppushpackage:flutter/src/material/page.dartMaterialPageRoutepackage:flutter/src/painting/text_painter.dartTextOverflowpackage:flutter/src/material/icon_button.dartpackage:flutter/src/widgets/editable_text.dartTextEditingControlleronlypackage:flutter/src/widgets/media_query.dartMediaQueryofMediaQueryDatapackage:flutter/src/material/divider.dart_literal4package:flutter/src/material/list_tile.dartpackage:image_picker/image_picker.dartImagePickerpackage:cross_file/src/types/io.dartXFilepackage:image_picker_platform_interface/src/types/image_source.dartImageSourceDurationpackage:image_picker_platform_interface/src/types/camera_device.dartCameraDeviceScaffoldMessengerpackage:flutter/src/material/snack_bar.dartpackage:flutter/src/animation/animation_style.dartAnimationStyleScaffoldFeatureControllerSnackBarClosedReasonScaffoldMessengerStatepackage:flutter/src/widgets/single_child_scroll_view.dartpackage:flutter/src/painting/box_decoration.dartBoxDecorationpackage:flutter/src/painting/box_border.dartBorderallColorSpacepackage:flutter/src/painting/alignment.dartAlignmentRenderObjectWidgetstyleFrompackage:flutter/foundation.dart_ColorScheme&Object&Diagnosticablepackage:flutter/src/foundation/diagnostics.dartDiagnosticableTree_DiagnosticableTree&Object&Diagnosticable_fromARGBC_fromRGBOCEdgeInsetsGeometry_TextStyle&Object&DiagnosticableSingleChildRenderObjectWidgetpackage:flutter/src/material/chip.dartAlignpackage:flutter/src/material/progress_indicator.dartProgressIndicatorParentDataWidgetProxyWidgetFlexibleFlexMultiChildRenderObjectWidgetsymmetric_Override_Enum_nameargbpackage:flutter/src/painting/colors.dartColorSwatch_swatchprimaryonPrimary_primaryContainer_onPrimaryContainer_primaryFixed_primaryFixedDim_onPrimaryFixed_onPrimaryFixedVariantsecondaryonSecondary_secondaryContainer_onSecondaryContainer_secondaryFixed_secondaryFixedDim_onSecondaryFixed_onSecondaryFixedVariant_tertiary_onTertiary_tertiaryContainer_onTertiaryContainer_tertiaryFixed_tertiaryFixedDim_onTertiaryFixed_onTertiaryFixedVarianterror_errorContainer_onErrorContainersurfaceonSurface_surfaceVariant_surfaceDim_surfaceBright_surfaceContainerLowest_surfaceContainerLow_surfaceContainer_surfaceContainerHigh_surfaceContainerHighest_onSurfaceVariant_outline_outlineVariant_shadow_scrim_inverseSurface_onInverseSurface_inversePrimary_surfaceTint_background_onBackgroundlinecolumn_locationcodePointfontFamilyfontPackagematchTextDirectionfontFamilyFallbackfillweightgradeopticalSizeshadowssemanticLabeltextDirectionapplyTextScalingblendModefontWeightactiveIcontooltipsemanticsLabeltopFontWeightinherit_fontFamilyFallback_packagefontSizefontStyleletterSpacingwordSpacingtextBaselineleadingDistributionlocaleforegroundbackgrounddecorationColordecorationStyledecorationThicknessdebugLabelfontFeaturesfontVariationsdatatextSpanstrutStyletextAlignsoftWraptextScaleFactortextScalersemanticsIdentifiertextWidthBasistextHeightBehaviorselectionColorBorderStylestrokeAlignClipavatarlabelStylelabelPaddingsideshapeclipBehaviorfocusNodeautofocusdeleteIcononDeleteddeleteIconColordeleteButtonTooltipMessageelevationsurfaceTintColoravatarBoxConstraintsdeleteIconBoxConstraintschipAnimationStylemouseCursorbackgroundImageforegroundImageonBackgroundImageErroronForegroundImageErrorminRadiusmaxRadiussubtitletrailingisThreeLinedenseselectedColoriconColortextColortitleTextStylesubtitleTextStyleleadingAndTrailingTextStylecontentPaddingenabledonLongPressonFocusChangeselectedtileColorselectedTileColorenableFeedbackhorizontalTitleGapminVerticalPaddingminLeadingWidthminTileHeighttitleAlignmentinternalAddSemanticForOnTapstatesControllerthicknessindentendIndentxywidthFactorheightFactorminimummaintainBottomViewPaddingAlignmentDirectional_defaultBottomSheetScrimBuilderpackage:flutter/src/gestures/recognizer.dartDragStartBehaviorextendBodydrawerBarrierDismissibleextendBodyBehindAppBarappBarfloatingActionButtonfloatingActionButtonLocationfloatingActionButtonAnimatorpersistentFooterButtonspersistentFooterAlignmentpersistentFooterDecorationdraweronDrawerChangedendDraweronEndDrawerChangeddrawerScrimColorbottomSheetScrimBuilderbottomSheetresizeToAvoidBottomInsetdrawerDragStartBehaviordrawerEdgeDragWidthdrawerEnableOpenDragGestureendDrawerEnableOpenDragGesturerestorationId_ActivityIndicatorType_indicatorTypestrokeWidthstrokeCapconstraintstrackGapyear2023valueColorsemanticsValueFlexFitflexlabelTextfloatingLabelStylehelperhelperTexthelperStylehelperMaxLineshinthintTextDirectionhintMaxLineshintFadeDurationmaintainHintHeightmaintainHintSizemaintainLabelSizeerrorTexterrorStyleerrorMaxLinesfloatingLabelBehaviorfloatingLabelAlignmentisDenseisCollapsedprefixIconConstraintsprefixprefixTextprefixStyleprefixIconColorsuffixIconsuffixsuffixTextsuffixStylesuffixIconColorsuffixIconConstraintscounterTextcountercounterStyleerrorBorderfocusedBorderfocusedErrorBorderdisabledBorderenabledBordersemanticCounterTextalignLabelWithHintinMicrosecondscontentmarginhitTestBehaviorbehavioractionactionOverflowThresholdshowCloseIconcloseIconColordurationpersistanimationonVisibledismissDirectionMainAxisAlignmentVerticalDirectiondirectionmainAxisAlignmentverticalDirectionvm.call-site-attributes.metadata
+60a57cd42d
+,=>
+wV>
+Nfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart
+ //
+// Generated file. Do not edit.
+// This file is generated from template in file `flutter_tools/lib/src/flutter_plugins.dart`.
+// @dart = 3.13
+import 'dart:io'; // flutter_ignore: dart_io_import.
+import 'package:image_picker_android/image_picker_android.dart' as image_picker_android;
+import 'package:path_provider_android/path_provider_android.dart' as path_provider_android;
+import 'package:video_player_android/video_player_android.dart' as video_player_android;
+import 'package:image_picker_ios/image_picker_ios.dart' as image_picker_ios;
+import 'package:path_provider_foundation/path_provider_foundation.dart' as path_provider_foundation;
+import 'package:video_player_avfoundation/video_player_avfoundation.dart' as video_player_avfoundation;
+import 'package:file_selector_linux/file_selector_linux.dart' as file_selector_linux;
+import 'package:image_picker_linux/image_picker_linux.dart' as image_picker_linux;
+import 'package:path_provider_linux/path_provider_linux.dart' as path_provider_linux;
+import 'package:share_plus/share_plus.dart' as share_plus;
+import 'package:url_launcher_linux/url_launcher_linux.dart' as url_launcher_linux;
+import 'package:file_selector_macos/file_selector_macos.dart' as file_selector_macos;
+import 'package:image_picker_macos/image_picker_macos.dart' as image_picker_macos;
+import 'package:path_provider_foundation/path_provider_foundation.dart' as path_provider_foundation;
+import 'package:video_player_avfoundation/video_player_avfoundation.dart' as video_player_avfoundation;
+import 'package:file_selector_windows/file_selector_windows.dart' as file_selector_windows;
+import 'package:image_picker_windows/image_picker_windows.dart' as image_picker_windows;
+import 'package:path_provider_windows/path_provider_windows.dart' as path_provider_windows;
+import 'package:share_plus/share_plus.dart' as share_plus;
+import 'package:url_launcher_windows/url_launcher_windows.dart' as url_launcher_windows;
+@pragma('vm:entry-point')
+class _PluginRegistrant {
+  @pragma('vm:entry-point')
+  static void register() {
+    if (Platform.isAndroid) {
+      try {
+        image_picker_android.ImagePickerAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_android.PathProviderAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_android.AndroidVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isIOS) {
+      try {
+        image_picker_ios.ImagePickerIOS.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_ios` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_foundation.PathProviderFoundation.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_foundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_avfoundation.AVFoundationVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_avfoundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isLinux) {
+      try {
+        file_selector_linux.FileSelectorLinux.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_linux.ImagePickerLinux.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_linux.PathProviderLinux.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        share_plus.SharePlusLinuxPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        url_launcher_linux.UrlLauncherLinux.registerWith();
+      } catch (err) {
+        print(
+          '`url_launcher_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isMacOS) {
+      try {
+        file_selector_macos.FileSelectorMacOS.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_macos.ImagePickerMacOS.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_foundation.PathProviderFoundation.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_foundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_avfoundation.AVFoundationVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_avfoundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isWindows) {
+      try {
+        file_selector_windows.FileSelectorWindows.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_windows.ImagePickerWindows.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_windows.PathProviderWindows.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        share_plus.SharePlusWindowsPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        url_launcher_windows.UrlLauncherWindows.registerWith();
+      } catch (err) {
+        print(
+          '`url_launcher_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    }
+  }
+5Y\YMehVSV;SVSeh\Y\;Y
+Nfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart
+C!D"E
+F$*%G
+*'H
+I)J**+G
+K-L.*/G"M
+N2*3G
+O5P6*7G
+Q9R:*;G"S
+T>*?G
+UA*BG
+VDWE*FG
+XHYI*JG
+ZL*MG"[
+\P*QG
+]S*TG"^
+_W*XG
+`Z*[G
+a]b^*_G
+cadb*cG
+ee*fG
++h@if
+gkhki
+)=Me~
+image_picker_androidpath_provider_androidvideo_player_androidimage_picker_iospath_provider_foundationvideo_player_avfoundationfile_selector_linuximage_picker_linuxpath_provider_linuxshare_plusurl_launcher_linuxfile_selector_macosimage_picker_macosfile_selector_windowsimage_picker_windowspath_provider_windowsurl_launcher_windows_PluginRegistrantregistererr`image_picker_android` threw an error: . The app may not function as expected until you remove this plugin from pubspec.yaml`path_provider_android` threw an error: `video_player_android` threw an error: `image_picker_ios` threw an error: `path_provider_foundation` threw an error: `video_player_avfoundation` threw an error: `file_selector_linux` threw an error: `image_picker_linux` threw an error: `path_provider_linux` threw an error: `share_plus` threw an error: `url_launcher_linux` threw an error: `file_selector_macos` threw an error: `image_picker_macos` threw an error: `file_selector_windows` threw an error: `image_picker_windows` threw an error: `path_provider_windows` threw an error: `url_launcher_windows` threw an error: vm:entry-pointfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart@methods@constructorspackage:vibepk/main.dartmaindart:iopackage:image_picker_android/image_picker_android.dartpackage:path_provider_android/path_provider_android.dartpackage:video_player_android/video_player_android.dartpackage:

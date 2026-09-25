@@ -1,0 +1,106 @@
+  const SizedBox(height: 15),
+              const Text(
+                'Add Hashtags',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: const [
+                  Chip(label: Text('#Pakistan')),
+                  Chip(label: Text('#VibePK')),
+                  Chip(label: Text('#Trending')),
+                  Chip(label: Text('#Funny')),
+                  Chip(label: Text('#Music')),
+                ],
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _postVibe,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                  ),
+                  child: const Text(
+                    'POST VIBE 
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+(11
+7-L
+"2F	
+9(	
+"' /
+(+2;&G
+"$:6
+!A&7&)PE
+-*.K?+>$$!+B@>*7!
+$E$ 98&
+0 ..3,;
+/ <B
+(,)B
+3:3G
+7*/"
+"' /
+ =-8B 6.=1
+ "' /
+"202//
+('(3:3G
+%$Q
+!package:vibepk/upload_screen.dart
+,file:///workspaces/Vibepk/lib/vibe_post.dart
+class VibePost {
+  final String videoPath;
+  final String caption;
+  final String username;
+  VibePost({
+    required this.videoPath,
+    required this.caption,
+    required this.username,
+  });
+package:vibepk/vibe_post.dart
+2file:///workspaces/Vibepk/lib/vibe_post_store.dart
+:import "vibe_post.dart";
+import "package:flutter/foundation.dart";
+class VibePostStore extends ChangeNotifier {
+  static final VibePostStore instance = VibePostStore._();
+  VibePostStore._();
+  final List<VibePost> posts = [];
+  void addPost(VibePost post) {
+    posts.add(post);
+    notifyListeners();
+  }
+#package:vibepk/vibe_post_store.dart
+]]]]]]
+??????
+UUUUUU
+[[[[[[
+^^^^^^
+7;?CG
+______
+]]]]]]
+XXXXXX
+QRSTV
+XY[\^
+`acdfgi
+}}}}}}
+ZZZZZZ
+SSSSSS
+zzzzzz
+vvvvvv
+QQQQQQ

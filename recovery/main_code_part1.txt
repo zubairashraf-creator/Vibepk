@@ -1,0 +1,201 @@
+t	`
+'file:///workspaces/Vibepk/lib/main.dart
+import "real_video_feed.dart";
+import 'package:flutter/material.dart';
+import 'upload_screen.dart';
+void main() {
+  runApp(const VibePKApp());
+class VibePKApp extends StatelessWidget {
+  const VibePKApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'VibePK',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        colorScheme: const ColorScheme.dark(primary: Colors.purpleAccent),
+      ),
+      home: const MainNavigation(),
+    );
+  }
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+  @override
+  State<MainNavigation> createState() => _MainNavigationState();
+class _MainNavigationState extends State<MainNavigation> {
+  int currentIndex = 0;
+  final List<Widget> pages = const [
+    HomeScreen(),
+    SearchScreen(),
+    UploadScreen(),
+    AlertsScreen(),
+    ProfileScreen(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF111111),
+        selectedItemColor: Colors.purpleAccent,
+        unselectedItemColor: Colors.grey,
+        currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: 'Upload',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_none),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const RealVideoFeed();
+  }
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Discover',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search videos, creators, hashtags...',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: const Color(0xFF1A1A1A),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              'Trending Hashtags 
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: const [
+                Chip(label: Text('#Pakistan')),
+                Chip(label: Text('#VibePK')),
+                Chip(label: Text('#Funny')),
+                Chip(label: Text('#Music')),
+                Chip(label: Text('#Trending')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+class AlertsScreen extends StatelessWidget {
+  const AlertsScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: const [
+          Text(
+            'Notifications',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 25),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.favorite)),
+            title: Text('Welcome to VibePK 
+'),
+            subtitle: Text('Start exploring amazing videos today'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.person_add)),
+            title: Text('Build your community'),
+            subtitle: Text('Follow creators you love'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.local_fire_department)),
+            title: Text('Trending now 
+'),
+            subtitle: Text('Discover popular videos in Pakistan'),
+          ),
+        ],
+      ),
+    );
+  }
+class VibeAction extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const VibeAction({super.key, required this.icon, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [Icon(icon, size: 28), const SizedBox(height: 5), Text(text)],
+    );
+  }
+class ProfileStat extends StatelessWidget {
+  final String number;
+  final String label;
+  const ProfileStat({super.key, required this.number, required this.label});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
+      ],
+    );
+  }
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'VibePK Profile',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+(/K	$

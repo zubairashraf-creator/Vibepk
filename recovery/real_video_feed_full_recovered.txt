@@ -1,0 +1,932 @@
+         'Discover',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search videos, creators, hashtags...',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: const Color(0xFF1A1A1A),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              'Trending Hashtags 
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: const [
+                Chip(label: Text('#Pakistan')),
+                Chip(label: Text('#VibePK')),
+                Chip(label: Text('#Funny')),
+                Chip(label: Text('#Music')),
+                Chip(label: Text('#Trending')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+class AlertsScreen extends StatelessWidget {
+  const AlertsScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: const [
+          Text(
+            'Notifications',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 25),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.favorite)),
+            title: Text('Welcome to VibePK 
+'),
+            subtitle: Text('Start exploring amazing videos today'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.person_add)),
+            title: Text('Build your community'),
+            subtitle: Text('Follow creators you love'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.local_fire_department)),
+            title: Text('Trending now 
+'),
+            subtitle: Text('Discover popular videos in Pakistan'),
+          ),
+        ],
+      ),
+    );
+  }
+class VibeAction extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const VibeAction({super.key, required this.icon, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [Icon(icon, size: 28), const SizedBox(height: 5), Text(text)],
+    );
+  }
+class ProfileStat extends StatelessWidget {
+  final String number;
+  final String label;
+  const ProfileStat({super.key, required this.number, required this.label});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
+      ],
+    );
+  }
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'VibePK Profile',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+(/K	$
+!020*$-
+JN#2
++B6
+4,;/
+ 0.--0
+@1D
+B18
+M,C
+package:vibepk/main.dart&
+2file:///workspaces/Vibepk/lib/real_video_feed.dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'upload_screen.dart';
+import 'vibe_post_store.dart';
+import 'package:video_player/video_player.dart';
+class RealVideoFeed extends StatefulWidget {
+  const RealVideoFeed({super.key});
+  @override
+  State<RealVideoFeed> createState() => _RealVideoFeedState();
+class _RealVideoFeedState extends State<RealVideoFeed> {
+  final PageController _pageController = PageController();
+  final VibePostStore _postStore = VibePostStore.instance;
+  final List<Map<String, String>> videos = [
+    {
+      'video':
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      'username': '@vibepk_official',
+      'caption': 'Welcome to VibePK 
+      'music': 'Original Sound - VibePK',
+    },
+    {
+      'video': 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      'username': '@pakistan_creator',
+      'caption': 'Create. Share. Go Viral. 
+      'music': 'Trending Sound 
+    },
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _postStore.addListener(_onPostsChanged);
+  }
+  void _onPostsChanged() {
+    if (mounted) setState(() {});
+  }
+  void _onPageChanged(int index) {
+    // Page change handled by each video item.
+  }
+  @override
+  void dispose() {
+    _postStore.removeListener(_onPostsChanged);
+    _pageController.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final posts = _postStore.posts;
+    final totalItems = videos.length + posts.length;
+    return PageView.builder(
+      controller: _pageController,
+      scrollDirection: Axis.vertical,
+      itemCount: totalItems,
+      onPageChanged: _onPageChanged,
+      itemBuilder: (context, index) {
+        if (index < videos.length) {
+          return VideoFeedItem(
+            videoUrl: videos[index]['video']!,
+            username: videos[index]['username']!,
+            caption: videos[index]['caption']!,
+            music: videos[index]['music']!,
+          );
+        }
+        final post = posts[index - videos.length];
+        return VideoFeedItem(
+          videoUrl: post.videoPath,
+          username: post.username,
+          caption: post.caption,
+          music: 'Original Sound VibePK',
+        );
+      },
+    );
+  }
+class VideoFeedItem extends StatefulWidget {
+  final String videoUrl;
+  final String username;
+  final String caption;
+  final String music;
+  const VideoFeedItem({
+    super.key,
+    required this.videoUrl,
+    required this.username,
+    required this.caption,
+    required this.music,
+  });
+  @override
+  State<VideoFeedItem> createState() => _VideoFeedItemState();
+class _VideoFeedItemState extends State<VideoFeedItem> {
+  late VideoPlayerController _controller;
+  bool isLiked = false;
+  bool isFollowing = false;
+  @override
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        widget.videoUrl.startsWith('http')
+              ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+              : VideoPlayerController.file(File(widget.videoUrl))
+          ..initialize().then((_) {
+            _controller.setLooping(true);
+            _controller.play();
+            if (mounted) setState(() {});
+          });
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(color: Colors.black),
+        if (_controller.value.isInitialized)
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _controller.value.isPlaying
+                    ? _controller.pause()
+                    : _controller.play();
+              });
+            },
+            onDoubleTap: () {
+              setState(() {
+                isLiked = true;
+              });
+            },
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: _controller.value.size.width,
+                height: _controller.value.size.height,
+                child: VideoPlayer(_controller),
+              ),
+            ),
+          )
+        else
+          const Center(
+            child: CircularProgressIndicator(color: Colors.purpleAccent),
+          ),
+        const Positioned(
+          top: 50,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Text(
+              'VibePK',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 16,
+          right: 90,
+          bottom: 90,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircleAvatar(
+                                radius: 38,
+                                backgroundColor: Colors.purpleAccent,
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 42,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                widget.username,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isFollowing = !isFollowing;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  isFollowing ? 'Following 
+' : 'Follow +',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  widget.username,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.caption,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.music_note,
+                                color: Colors.purpleAccent,
+                                size: 50,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                widget.music,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Use This Sound'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const UploadScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    const Icon(Icons.music_note, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        widget.music,
+                        style: const TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          right: 14,
+          bottom: 85,
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.purpleAccent,
+                child: IconButton(
+                  icon: Icon(
+                    isFollowing ? Icons.check : Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isFollowing = !isFollowing;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 22),
+              IconButton(
+                iconSize: 35,
+                icon: Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+              ),
+              const Text('12.5K', style: TextStyle(color: Colors.white)),
+              const SizedBox(height: 18),
+              IconButton(
+                iconSize: 32,
+                icon: const Icon(
+                  Icons.chat_bubble_outline,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      final controller = TextEditingController();
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SizedBox(
+                          height: 420,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Comments',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(color: Colors.white24),
+                              const Expanded(
+                                child: Center(
+                                  child: Text(
+                                    'Be the first to comment',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: controller,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          hintText: 'Add a comment...',
+                                          hintStyle: TextStyle(
+                                            color: Colors.white54,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.send,
+                                        color: Colors.purpleAccent,
+                                      ),
+                                      onPressed: () {
+                                        controller.clear();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              const Text('245', style: TextStyle(color: Colors.white)),
+              const SizedBox(height: 18),
+              IconButton(
+                iconSize: 32,
+                icon: const Icon(Icons.share, color: Colors.white),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'Share Vibe',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.link,
+                                  color: Colors.white,
+                                ),
+                                title: const Text(
+                                  'Copy Link',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.send,
+                                  color: Colors.purpleAccent,
+                                ),
+                                title: const Text(
+                                  'Send Vibe',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+9;;
+Q&G*
+\'0$
+'$5
+%&% /20,
+$#!*
++MB$* *
+,**
+571
+(&5)'(=)<(2,F-07,#!:$1870?#!:.00@&:#-L#!
+#*)1"
+(&5)'(=)<(*2<*!:$.870?#!:(8<?G2<4/9N)'%#!
+#&E9
+""2
+  (
+"-'
+ (&.5)B
+&2L
+)')(:*,270?#!D.//?M%#!'C,..8@@?+KH@C-+)'084D)6<)'%#!
+D (&5)'(=)<(*.270?#!:(5.7#3/I#,:#!(5.>#3/I#,:#!
+#package:vibepk/real_video_feed.dart
+0file:///workspaces/Vibepk/lib/upload_screen.dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
+class UploadScreen extends StatefulWidget {
+  const UploadScreen({super.key});
+  @override
+  State<UploadScreen> createState() => _UploadScreenState();
+class _UploadScreenState extends State<UploadScreen> {
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController _captionController = TextEditingController();
+  XFile? _selectedVideo;
+  VideoPlayerController? _videoController;
+  bool _isLoading = false;
+  Future<void> _pickVideo() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+    if (video == null) return;
+    setState(() {
+      _isLoading = true;
+      _selectedVideo = video;
+    });
+    await _videoController?.dispose();
+    final controller = VideoPlayerController.file(File(video.path));
+    await controller.initialize();
+    controller
+      ..setLooping(true)
+      ..play();
+    if (!mounted) return;
+    setState(() {
+      _videoController = controller;
+      _isLoading = false;
+    });
+  }
+  void _postVibe() {
+    if (_selectedVideo == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please choose a video first')),
+      );
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Your Vibe is ready to post! 
+'),
+        backgroundColor: Colors.purple,
+      ),
+    );
+  }
+  @override
+  void dispose() {
+    _captionController.dispose();
+    _videoController?.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final hasVideo =
+        _videoController != null && _videoController!.value.isInitialized;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Create Vibe',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Share your creativity with Pakistan 
+                style: TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 25),
+              Container(
+                height: 330,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF151515),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.purpleAccent.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.purpleAccent,
+                        ),
+                      )
+                    : hasVideo
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: _videoController!.value.aspectRatio,
+                              child: VideoPlayer(_videoController!),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (_videoController!.value.isPlaying) {
+                                    _videoController!.pause();
+                                  } else {
+                                    _videoController!.play();
+                                  }
+                                });
+                              },
+                              child: Icon(
+                                _videoController!.value.isPlaying
+                                    ? Icons.pause_circle_filled
+                                    : Icons.play_circle_fill,
+                                size: 60,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_upload_outlined,
+                            color: Colors.purpleAccent,
+                            size: 85,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            'Choose a video',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Upload your best short video',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+              ),
+              const SizedBox(height: 18),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _pickVideo,
+                  icon: const Icon(Icons.video_library_outlined),
+                  label: Text(
+                    _selectedVideo == null ? 'Choose Video' : 'Change Video',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+              if (_selectedVideo != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  'Selected: ${_selectedVideo!.name}',
+                  style: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+              const SizedBox(height: 25),
+              const Text(
+                'Caption',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _captionController,
+                maxLines: 3,
+                maxLength: 150,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'What is your vibe today?',
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: const Color(0xFF151515),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                'Add Hashtags',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: const [
+                  Chip(label: Text('#Pakistan')),
+                  Chip(label: Text('#VibePK')),
+                  Chip(label: Text('#Trending')),
+                  Chip(label: Text('#Funny')),
+                  Chip(label: Text('#Music')),
+                ],
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _postVibe,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                  ),
+                  child: const Text(
+                    'POST VIBE 
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+(11
+7-L
+"2F	
+9(	
+"' /
+(+2;&G
+"$:6
+!A&7&)PE
+-*.K?+>$$!+B@>*7!
+$E$ 98&
+0 ..3,;
+/ <B
+(,)B
+3:3G
+7*/"
+"' /
+ =-8B 6.=1
+ "' /
+"202//
+('(3:3G
+%$Q
+!package:vibepk/upload_screen.dart
+,file:///workspaces/Vibepk/lib/vibe_post.dart
+class VibePost {
+  final String videoPath;
+  final String caption;
+  final String username;
+  VibePost({
+    required this.videoPath,
+    required this.caption,
+    required this.username,
+  });
+package:vibepk/vibe_post.dart
+2file:///workspaces/Vibepk/lib/vibe_post_store.dart
+:import "vibe_post.dart";
+import "package:flutter/foundation.dart";
+class VibePostStore extends ChangeNotifier {
+  static final VibePostStore instance = VibePostStore._();
+  VibePostStore._();
+  final List<VibePost> posts = [];
+  void addPost(VibePost post) {
+    posts.add(post);
+    notifyListeners();
+  }
+#package:vibepk/vibe_post_store.dart
+]]]]]]
+??????
+UUUUUU
+[[[[[[
+^^^^^^
+7;?CG
+______
+]]]]]]
+XXXXXX
+QRSTV
+XY[\^
+`acdfgi
+}}}}}}
+ZZZZZZ
+SSSSSS
+zzzzzz
+vvvvvv
+QQQQQQ

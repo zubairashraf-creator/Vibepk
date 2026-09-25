@@ -1,0 +1,1446 @@
+ set. This package (and POSIX) '
+        'requires that HOME be set.');
+  }
+  return Directory(path.joinAll(<String>[homeDir, subdir]));
+/// The base directory relative to which user-specific
+/// non-essential (cached) data should be written. (Corresponds to
+/// `$XDG_CACHE_HOME`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+Directory get cacheHome =>
+    _directoryFromEnvironmentWithFallback('XDG_CACHE_HOME', '.cache');
+/// The list of preference-ordered base directories relative to
+/// which configuration files should be searched. (Corresponds to
+/// `$XDG_CONFIG_DIRS`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+List<Directory> get configDirs {
+  return _directoryListFromEnvironment(
+    'XDG_CONFIG_DIRS',
+    <Directory>[Directory('/etc/xdg')],
+  );
+/// The a single base directory relative to which user-specific
+/// configuration files should be written. (Corresponds to `$XDG_CONFIG_HOME`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+Directory get configHome =>
+    _directoryFromEnvironmentWithFallback('XDG_CONFIG_HOME', '.config');
+/// The list of preference-ordered base directories relative to
+/// which data files should be searched. (Corresponds to `$XDG_DATA_DIRS`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+List<Directory> get dataDirs {
+  return _directoryListFromEnvironment(
+    'XDG_DATA_DIRS',
+    <Directory>[Directory('/usr/local/share'), Directory('/usr/share')],
+  );
+/// The base directory relative to which user-specific data files should be
+/// written. (Corresponds to `$XDG_DATA_HOME`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+Directory get dataHome =>
+    _directoryFromEnvironmentWithFallback('XDG_DATA_HOME', '.local/share');
+/// The base directory relative to which user-specific runtime
+/// files and other file objects should be placed. (Corresponds to
+/// `$XDG_RUNTIME_DIR`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+Directory? get runtimeDir => _directoryFromEnvironment('XDG_RUNTIME_DIR');
+/// The base directory relative to which user-specific state data should be
+/// written. (Corresponds to `$XDG_STATE_HOME`).
+///
+/// Throws [StateError] if the HOME environment variable is not set.
+Directory get stateHome =>
+    _directoryFromEnvironmentWithFallback('XDG_STATE_HOME', '.local/state');
+/// Gets the xdg user directory named by `dirName`.
+///
+/// Use [getUserDirectoryNames] to find out the list of available names.
+///
+/// If the `xdg-user-dir` executable is not present this returns null.
+Directory? getUserDirectory(String dirName) {
+  final ProcessResult result;
+  try {
+    result = _processRunner.runSync(
+      'xdg-user-dir',
+      <String>[dirName],
+      stdoutEncoding: utf8,
+    );
+  } on ProcessException catch (e) {
+    // Silently return null if it's missing, otherwise pass the exception up.
+    if (e.errorCode == _noSuchFileError) {
+      return null;
+    }
+    rethrow;
+  }
+  final String path = (result.stdout as String).split('\n')[0];
+  return Directory(path);
+/// Gets the set of user directory names that xdg knows about.
+///
+/// These are not paths, they are names of xdg values.  Call [getUserDirectory]
+/// to get the associated directory.
+///
+/// These are the names of the variables in "[configHome]/user-dirs.dirs", with
+/// the `XDG_` prefix removed and the `_DIR` suffix removed.
+Set<String> getUserDirectoryNames() {
+  final File configFile = File(path.join(configHome.path, 'user-dirs.dirs'));
+  List<String> contents;
+  try {
+    contents = configFile.readAsLinesSync();
+  } on FileSystemException {
+    return const <String>{};
+  }
+  final Set<String> result = <String>{};
+  final RegExp dirRegExp =
+      RegExp(r'^\s*XDG_(?<dirname>[^=]*)_DIR\s*=\s*(?<dir>.*)\s*$');
+  for (final String line in contents) {
+    final RegExpMatch? match = dirRegExp.firstMatch(line);
+    if (match == null) {
+      continue;
+    }
+    result.add(match.namedGroup('dirname')!);
+  }
+  return result;
+P,?
+<&:
+L.1H
+C24
+//&()(
+6&)(
+1&&)($
+-)&
+E!(
+$N+
+P=&N
+E(;
+,package:xdg_directories/xdg_directories.dart
+ ! " #
+(\)
+(]+
+	-\.
+-]0
+b6c6d8]9
+6e2f3g3h3i?\@
+6j3kCZDl6mF\G
+3n6oJ\Kp6q7ZN
+6r7\Q
+6sT\U
+ItW
+6u[]\
+5\^v6w`tabbxby2z3{fZgA6|i\j}>ZlB;\n
+6~3
+qtr
+IZu
+q\wH3
+{]|
+Tp\
+'.8AO]r
+4pathEnvironmentAccessorXdgProcessRunnerrunSyncexecutableargumentsstdoutEncodingstderrEncoding_DefaultProcessRunner_noSuchFileError_xdgEnvironmentOverride_getenv_processRunnerxdgEnvironmentOverrideoverride_productionGetEnvvalue[]xdgProcessRunnerprocessRunner_directoryListFromEnvironmentenvVarfallbackisEmptysplit:whereisNotEmptymapentrytoListgrowable_directoryFromEnvironment_directoryFromEnvironmentWithFallback_getDirectorysubdirhomeDirHOMEcacheHomeXDG_CACHE_HOME.cacheconfigDirsXDG_CONFIG_DIRS/etc/xdgconfigHomeXDG_CONFIG_HOME.configdataDirsXDG_DATA_DIRS/usr/local/share/usr/sharedataHomeXDG_DATA_HOME.local/shareruntimeDirXDG_RUNTIME_DIRstateHomeXDG_STATE_HOME.local/stategetUserDirectorydirNameresultxdg-user-direerrorCodestdout
+getUserDirectoryNamesconfigFileuser-dirs.dirscontentsreadAsLinesSyncencodingdirRegExp^\s*XDG_(?<dirname>[^=]*)_DIR\s*=\s*(?<dir>.*)\s*$:sync-for-iteratoriteratormoveNextlinecurrentmatchfirstMatchaddnamedGroupdirnameThe "HOME" environment variable is not set. This package (and POSIX) requires that HOME be set.package:xdg_directories/xdg_directories.dart@typedefs@fields@getters@setters@methods@constructorsdart:convertdart:iopackage:meta/meta.dartpackage:path/path.dartdart:coreStringObjectListEncodingSystemEncodingProcessResultProcessintPlatformenvironmentMapDirectoryArgumentErrorcheckNotNullboolPatternIterable@factoriesStateErrorjoinAll_GrowableList_literal2_literal1Utf8CodecProcessExceptionnum==SetFilejoinFileSystemExceptiondart:_compact_hash_SetRegExpIteratorRegExpMatch_VisibleForTesting_Override_allowMalformedvm.call-site-attributes.metadata
+60a57cd42d
+#d]
+)c`
+Jij
+akcv
+bml4
+\\\
+xyj
+j{j
+$@uj
+\\\
+\\\
+\\\
+Q\Z
+qv{
+rw|
+sx}
+\\\
+\\\
+\\\
+V@r
+\\\
+@U@r
+9@hj
+\\\
+\\\
+Dhj
+@z@r
+B|`
+?=x
+\\\
+?=x
+\\\
+?=x
+\\\
+'sj
+?=x
+Zz)
+ {j
+ @uj
+'sj
+t	`
+'file:///workspaces/Vibepk/lib/main.dart
+import "real_video_feed.dart";
+import 'package:flutter/material.dart';
+import 'upload_screen.dart';
+void main() {
+  runApp(const VibePKApp());
+class VibePKApp extends StatelessWidget {
+  const VibePKApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'VibePK',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        colorScheme: const ColorScheme.dark(primary: Colors.purpleAccent),
+      ),
+      home: const MainNavigation(),
+    );
+  }
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+  @override
+  State<MainNavigation> createState() => _MainNavigationState();
+class _MainNavigationState extends State<MainNavigation> {
+  int currentIndex = 0;
+  final List<Widget> pages = const [
+    HomeScreen(),
+    SearchScreen(),
+    UploadScreen(),
+    AlertsScreen(),
+    ProfileScreen(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF111111),
+        selectedItemColor: Colors.purpleAccent,
+        unselectedItemColor: Colors.grey,
+        currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: 'Upload',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_none),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const RealVideoFeed();
+  }
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Discover',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search videos, creators, hashtags...',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: const Color(0xFF1A1A1A),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              'Trending Hashtags 
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: const [
+                Chip(label: Text('#Pakistan')),
+                Chip(label: Text('#VibePK')),
+                Chip(label: Text('#Funny')),
+                Chip(label: Text('#Music')),
+                Chip(label: Text('#Trending')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+class AlertsScreen extends StatelessWidget {
+  const AlertsScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: const [
+          Text(
+            'Notifications',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 25),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.favorite)),
+            title: Text('Welcome to VibePK 
+'),
+            subtitle: Text('Start exploring amazing videos today'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.person_add)),
+            title: Text('Build your community'),
+            subtitle: Text('Follow creators you love'),
+          ),
+          Divider(),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.local_fire_department)),
+            title: Text('Trending now 
+'),
+            subtitle: Text('Discover popular videos in Pakistan'),
+          ),
+        ],
+      ),
+    );
+  }
+class VibeAction extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const VibeAction({super.key, required this.icon, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [Icon(icon, size: 28), const SizedBox(height: 5), Text(text)],
+    );
+  }
+class ProfileStat extends StatelessWidget {
+  final String number;
+  final String label;
+  const ProfileStat({super.key, required this.number, required this.label});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
+      ],
+    );
+  }
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'VibePK Profile',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+(/K	$
+!020*$-
+JN#2
++B6
+4,;/
+ 0.--0
+@1D
+B18
+M,C
+package:vibepk/main.dart&
+2file:///workspaces/Vibepk/lib/real_video_feed.dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'upload_screen.dart';
+import 'vibe_post_store.dart';
+import 'package:video_player/video_player.dart';
+class RealVideoFeed extends StatefulWidget {
+  const RealVideoFeed({super.key});
+  @override
+  State<RealVideoFeed> createState() => _RealVideoFeedState();
+class _RealVideoFeedState extends State<RealVideoFeed> {
+  final PageController _pageController = PageController();
+  final VibePostStore _postStore = VibePostStore.instance;
+  final List<Map<String, String>> videos = [
+    {
+      'video':
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      'username': '@vibepk_official',
+      'caption': 'Welcome to VibePK 
+      'music': 'Original Sound - VibePK',
+    },
+    {
+      'video': 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      'username': '@pakistan_creator',
+      'caption': 'Create. Share. Go Viral. 
+      'music': 'Trending Sound 
+    },
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _postStore.addListener(_onPostsChanged);
+  }
+  void _onPostsChanged() {
+    if (mounted) setState(() {});
+  }
+  void _onPageChanged(int index) {
+    // Page change handled by each video item.
+  }
+  @override
+  void dispose() {
+    _postStore.removeListener(_onPostsChanged);
+    _pageController.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final posts = _postStore.posts;
+    final totalItems = videos.length + posts.length;
+    return PageView.builder(
+      controller: _pageController,
+      scrollDirection: Axis.vertical,
+      itemCount: totalItems,
+      onPageChanged: _onPageChanged,
+      itemBuilder: (context, index) {
+        if (index < videos.length) {
+          return VideoFeedItem(
+            videoUrl: videos[index]['video']!,
+            username: videos[index]['username']!,
+            caption: videos[index]['caption']!,
+            music: videos[index]['music']!,
+          );
+        }
+        final post = posts[index - videos.length];
+        return VideoFeedItem(
+          videoUrl: post.videoPath,
+          username: post.username,
+          caption: post.caption,
+          music: 'Original Sound VibePK',
+        );
+      },
+    );
+  }
+class VideoFeedItem extends StatefulWidget {
+  final String videoUrl;
+  final String username;
+  final String caption;
+  final String music;
+  const VideoFeedItem({
+    super.key,
+    required this.videoUrl,
+    required this.username,
+    required this.caption,
+    required this.music,
+  });
+  @override
+  State<VideoFeedItem> createState() => _VideoFeedItemState();
+class _VideoFeedItemState extends State<VideoFeedItem> {
+  late VideoPlayerController _controller;
+  bool isLiked = false;
+  bool isFollowing = false;
+  @override
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        widget.videoUrl.startsWith('http')
+              ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+              : VideoPlayerController.file(File(widget.videoUrl))
+          ..initialize().then((_) {
+            _controller.setLooping(true);
+            _controller.play();
+            if (mounted) setState(() {});
+          });
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(color: Colors.black),
+        if (_controller.value.isInitialized)
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _controller.value.isPlaying
+                    ? _controller.pause()
+                    : _controller.play();
+              });
+            },
+            onDoubleTap: () {
+              setState(() {
+                isLiked = true;
+              });
+            },
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: _controller.value.size.width,
+                height: _controller.value.size.height,
+                child: VideoPlayer(_controller),
+              ),
+            ),
+          )
+        else
+          const Center(
+            child: CircularProgressIndicator(color: Colors.purpleAccent),
+          ),
+        const Positioned(
+          top: 50,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Text(
+              'VibePK',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 16,
+          right: 90,
+          bottom: 90,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircleAvatar(
+                                radius: 38,
+                                backgroundColor: Colors.purpleAccent,
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 42,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                widget.username,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isFollowing = !isFollowing;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  isFollowing ? 'Following 
+' : 'Follow +',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  widget.username,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.caption,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.music_note,
+                                color: Colors.purpleAccent,
+                                size: 50,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                widget.music,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Use This Sound'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const UploadScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    const Icon(Icons.music_note, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        widget.music,
+                        style: const TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          right: 14,
+          bottom: 85,
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.purpleAccent,
+                child: IconButton(
+                  icon: Icon(
+                    isFollowing ? Icons.check : Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isFollowing = !isFollowing;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 22),
+              IconButton(
+                iconSize: 35,
+                icon: Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+              ),
+              const Text('12.5K', style: TextStyle(color: Colors.white)),
+              const SizedBox(height: 18),
+              IconButton(
+                iconSize: 32,
+                icon: const Icon(
+                  Icons.chat_bubble_outline,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      final controller = TextEditingController();
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SizedBox(
+                          height: 420,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Comments',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(color: Colors.white24),
+                              const Expanded(
+                                child: Center(
+                                  child: Text(
+                                    'Be the first to comment',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: controller,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          hintText: 'Add a comment...',
+                                          hintStyle: TextStyle(
+                                            color: Colors.white54,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.send,
+                                        color: Colors.purpleAccent,
+                                      ),
+                                      onPressed: () {
+                                        controller.clear();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              const Text('245', style: TextStyle(color: Colors.white)),
+              const SizedBox(height: 18),
+              IconButton(
+                iconSize: 32,
+                icon: const Icon(Icons.share, color: Colors.white),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'Share Vibe',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.link,
+                                  color: Colors.white,
+                                ),
+                                title: const Text(
+                                  'Copy Link',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.send,
+                                  color: Colors.purpleAccent,
+                                ),
+                                title: const Text(
+                                  'Send Vibe',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+9;;
+Q&G*
+\'0$
+'$5
+%&% /20,
+$#!*
++MB$* *
+,**
+571
+(&5)'(=)<(2,F-07,#!:$1870?#!:.00@&:#-L#!
+#*)1"
+(&5)'(=)<(*2<*!:$.870?#!:(8<?G2<4/9N)'%#!
+#&E9
+""2
+  (
+"-'
+ (&.5)B
+&2L
+)')(:*,270?#!D.//?M%#!'C,..8@@?+KH@C-+)'084D)6<)'%#!
+D (&5)'(=)<(*.270?#!:(5.7#3/I#,:#!(5.>#3/I#,:#!
+#package:vibepk/real_video_feed.dart
+0file:///workspaces/Vibepk/lib/upload_screen.dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
+class UploadScreen extends StatefulWidget {
+  const UploadScreen({super.key});
+  @override
+  State<UploadScreen> createState() => _UploadScreenState();
+class _UploadScreenState extends State<UploadScreen> {
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController _captionController = TextEditingController();
+  XFile? _selectedVideo;
+  VideoPlayerController? _videoController;
+  bool _isLoading = false;
+  Future<void> _pickVideo() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+    if (video == null) return;
+    setState(() {
+      _isLoading = true;
+      _selectedVideo = video;
+    });
+    await _videoController?.dispose();
+    final controller = VideoPlayerController.file(File(video.path));
+    await controller.initialize();
+    controller
+      ..setLooping(true)
+      ..play();
+    if (!mounted) return;
+    setState(() {
+      _videoController = controller;
+      _isLoading = false;
+    });
+  }
+  void _postVibe() {
+    if (_selectedVideo == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please choose a video first')),
+      );
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Your Vibe is ready to post! 
+'),
+        backgroundColor: Colors.purple,
+      ),
+    );
+  }
+  @override
+  void dispose() {
+    _captionController.dispose();
+    _videoController?.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final hasVideo =
+        _videoController != null && _videoController!.value.isInitialized;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Create Vibe',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Share your creativity with Pakistan 
+                style: TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 25),
+              Container(
+                height: 330,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF151515),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.purpleAccent.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.purpleAccent,
+                        ),
+                      )
+                    : hasVideo
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: _videoController!.value.aspectRatio,
+                              child: VideoPlayer(_videoController!),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (_videoController!.value.isPlaying) {
+                                    _videoController!.pause();
+                                  } else {
+                                    _videoController!.play();
+                                  }
+                                });
+                              },
+                              child: Icon(
+                                _videoController!.value.isPlaying
+                                    ? Icons.pause_circle_filled
+                                    : Icons.play_circle_fill,
+                                size: 60,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_upload_outlined,
+                            color: Colors.purpleAccent,
+                            size: 85,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            'Choose a video',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Upload your best short video',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+              ),
+              const SizedBox(height: 18),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _pickVideo,
+                  icon: const Icon(Icons.video_library_outlined),
+                  label: Text(
+                    _selectedVideo == null ? 'Choose Video' : 'Change Video',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+              if (_selectedVideo != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  'Selected: ${_selectedVideo!.name}',
+                  style: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+              const SizedBox(height: 25),
+              const Text(
+                'Caption',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _captionController,
+                maxLines: 3,
+                maxLength: 150,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'What is your vibe today?',
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: const Color(0xFF151515),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                'Add Hashtags',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: const [
+                  Chip(label: Text('#Pakistan')),
+                  Chip(label: Text('#VibePK')),
+                  Chip(label: Text('#Trending')),
+                  Chip(label: Text('#Funny')),
+                  Chip(label: Text('#Music')),
+                ],
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _postVibe,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purpleAccent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                  ),
+                  child: const Text(
+                    'POST VIBE 
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+(11
+7-L
+"2F	
+9(	
+"' /
+(+2;&G
+"$:6
+!A&7&)PE
+-*.K?+>$$!+B@>*7!
+$E$ 98&
+0 ..3,;
+/ <B
+(,)B
+3:3G
+7*/"
+"' /
+ =-8B 6.=1
+ "' /
+"202//
+('(3:3G
+%$Q
+!package:vibepk/upload_screen.dart
+,file:///workspaces/Vibepk/lib/vibe_post.dart
+class VibePost {
+  final String videoPath;
+  final String caption;
+  final String username;
+  VibePost({
+    required this.videoPath,
+    required this.caption,
+    required this.username,
+  });
+package:vibepk/vibe_post.dart
+2file:///workspaces/Vibepk/lib/vibe_post_store.dart
+:import "vibe_post.dart";
+import "package:flutter/foundation.dart";
+class VibePostStore extends ChangeNotifier {
+  static final VibePostStore instance = VibePostStore._();
+  VibePostStore._();
+  final List<VibePost> posts = [];
+  void addPost(VibePost post) {
+    posts.add(post);
+    notifyListeners();
+  }
+#package:vibepk/vibe_post_store.dart
+]]]]]]
+??????
+UUUUUU
+[[[[[[
+^^^^^^
+7;?CG
+______
+]]]]]]
+XXXXXX
+QRSTV
+XY[\^
+`acdfgi
+}}}}}}
+ZZZZZZ
+SSSSSS
+zzzzzz
+vvvvvv
+QQQQQQ
+~~~~~~
+<<<<<<
+rrrrrr
+WWWWWW
+uuuuuu
+TTTTTT
+@U@
+777777
+YYYYYY
+ZZZZZZ
+`GaF
+`ja_
+27>X]chp
+TVibePKAppkey$creationLocationd_0dea112b090073317d4buildcontextdebugShowCheckedModeBannertitleVibePKthemecopyWithscaffoldBackgroundColorcolorSchemeactionIconThemeadaptationsappBarThemeapplyElevationOverlayColorbadgeThemebannerThemebottomAppBarThemebottomNavigationBarThemebottomSheetThemebrightnessbuttonBarThemebuttonThemecanvasColorcardColorcardThemecarouselViewThemecheckboxThemechipThemecupertinoOverrideThemedataTableThemedatePickerThemedialogBackgroundColordialogThemedisabledColordividerColordividerThemedrawerThemedropdownMenuThemeelevatedButtonThemeexpansionTileThemeextensionsfilledButtonThemefloatingActionButtonThemefocusColorhighlightColorhintColorhoverColoriconButtonThemeiconThemeindicatorColorinputDecorationThemelistTileThemematerialTapTargetSizemenuBarThememenuButtonThememenuThemenavigationBarThemenavigationDrawerThemenavigationRailThemeoutlinedButtonThemepageTransitionsThemeplatformpopupMenuThemeprimaryColorprimaryColorDarkprimaryColorLightprimaryIconThemeprimaryTextThemeprogressIndicatorThemeradioThemescrollbarThemesearchBarThemesearchViewThemesecondaryHeaderColorsegmentedButtonThemeshadowColorsliderThemesnackBarThemesplashColorsplashFactoryswitchThemetabBarThemetextButtonThemetextSelectionThemetextThemetimePickerThemetoggleButtonsThemetooltipThemetypographyunselectedWidgetColoruseMaterial3visualDensityhomeMainNavigationcreateState_MainNavigationStatecurrentIndexpagesbody[]bottomNavigationBarbackgroundColorselectedItemColorunselectedItemColortypeonTapindexsetStateitemsHomeScreenSearchScreenchildpaddingcrossAxisAlignmentchildrendecorationhintTextSearch videos, creators, hashtags...prefixIconfilledfillColorborderborderRadiusborderSidespacingrunSpacingAlertsScreenVibeActionicontextsizeProfileStatnumberlabelstyleProfileScreenmainRealVideoFeed_RealVideoFeedState_pageController_postStorevideosvideohttps://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4username@vibepk_officialcaptionWelcome to VibePK 
+musicOriginal Sound - VibePKhttps://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4@pakistan_creatorCreate. Share. Go Viral. 
+Trending Sound 
+initStateaddListener_onPostsChangedmounted_onPageChangeddisposeremoveListenerpoststotalItemslength+controllerscrollDirectionitemCountonPageChangeditemBuilder<videoUrlpost-videoPathOriginal Sound VibePKVideoFeedItem_VideoFeedItemState_controllerisLikedisFollowingwidgetstartsWithhttpinitializethen_#wc0#formalsetLoopingplayonErrorfitcolorvalueisInitializedaddisPlayingpauseonDoubleTapwidthheightleftrightbottombuildermainAxisSizeonPressedFollowing 
+Follow +overflowradiusiconSizeisScrollControlledviewInsetsclearleadingUploadScreen_UploadScreenState_picker_captionController_selectedVideo_videoController_isLoading_pickVideopickVideosourcemaxDurationpreferredCameraDevicepath_postVibeshowSnackBarsnackBarAnimationStylehasVideowithValuesalphabluecolorSpacegreenredalignmentaspectRatioChoose VideoChange VideoforegroundColoraddAllSelected: namemaxLinesmaxLengthWhat is your vibe today?hintStyleVibePostVibePostStoreinstance_addPostnotifyListenerssRGBdarkfile:///workspaces/Vibepk/lib/main.dartMaterialAppfixedMaterialIconsIconHomeSearchUploadAlertsProfileBottomNavigationBarScaffoldstartDiscoverTextSizedBoxnoneTextFieldTrending Hashtags 
+#PakistanChip#VibePK#Funny#Music#TrendingWrapColumnPaddingSafeAreaNotificationsCircleAvatarWelcome to VibePK 
+Start exploring amazing videos todayListTileDividerBuild your communityFollow creators you loveTrending now 
+Discover popular videos in PakistanListViewVibePK ProfileCenterverticalfile:///workspaces/Vibepk/lib/real_video_feed.dartPageViewexpandContainercoverVideoPlayerFittedBoxGestureDetectormaterialCircularProgressIndicatorPositionedminElevatedButtonUse This SoundellipsisExpandedRowIconButton12.5KCommentstightBe the first to commentAdd a comment...245Share VibeCopy LinkSend VibeStackgalleryPlease choose a video firstfile:///workspaces/Vibepk/lib/upload_screen.darthardEdgeSnackBarYour Vibe is ready to post! 
+Create VibeShare your creativity with Pakistan 
+AspectRatioClipRRectcentermaxdownChoose a videoUpload your best short videoCaptionAdd HashtagsPOST VIBE 
+SingleChildScrollViewpackage:vibepk/main.dart@methods@constructors@fields@getters@setterspackage:vibepk/real_video_feed.dartpackage:vibepk/upload_screen.dartpackage:vibepk/vibe_post.dartpackage:vibepk/vibe_post_store.dartpackage:flutter/material.dartpackage:flutter/src/widgets/framework.dartStatelessWidgetpackage:flutter/src/foundation/key.dartKeypackage:flutter/src/widgets/widget_inspector.dart_Locationdart:coreObjectBuildContextWidgetpackage:flutter/src/material/app.dartpackage:flutter/src/material/theme_data.dartThemeData@factoriesdart:uiColorpackage:flutter/src/material/color_scheme.dartColorSchemepackage:flutter/src/material/action_icons_theme.dartActionIconThemeDataIterableAdaptationboolpackage:flutter/src/material/badge_theme.dartBadgeThemeDatapackage:flutter/src/material/banner_theme.dartMaterialBannerThemeDatapackage:flutter/src/material/bottom_app_bar_theme.dartBottomAppBarThemeDatapackage:flutter/src/material/bottom_navigation_bar_theme.dartBottomNavigationBarThemeDatapackage:flutter/src/material/bottom_sheet_theme.dartBottomSheetThemeDataBrightnesspackage:flutter/src/material/button_bar_theme.dartButtonBarThemeDatapackage:flutter/src/material/button_theme.dartButtonThemeDatapackage:flutter/src/material/card_theme.dartCardThemeDatapackage:flutter/src/material/carousel_theme.dartCarouselViewThemeDatapackage:flutter/src/material/checkbox_theme.dartCheckboxThemeDatapackage:flutter/src/material/chip_theme.dartChipThemeDatapackage:flutter/src/cupertino/theme.dartNoDefaultCupertinoThemeDatapackage:flutter/src/material/data_table_theme.dartDataTableThemeDatapackage:flutter/src/material/date_picker_theme.dartDatePickerThemeDatapackage:flutter/src/material/dialog_theme.dartDialogThemeDatapackage:flutter/src/material/divider_theme.dartDividerThemeDatapackage:flutter/src/material/drawer_theme.dartDrawerThemeDatapackage:flutter/src/material/dropdown_menu_theme.dartDropdownMenuThemeDatapackage:flutter/src/material/elevated_button_theme.dartElevatedButtonThemeDatapackage:flutter/src/material/expansion_tile_theme.dartExpansionTileThemeDataThemeExtensionpackage:flutter/src/material/filled_button_theme.dartFilledButtonThemeDatapackage:flutter/src/material/floating_action_button_theme.dartFloatingActionButtonThemeDatapackage:flutter/src/material/icon_button_theme.dartIconButtonThemeDatapackage:flutter/src/widgets/icon_theme_data.dartIconThemeDatapackage:flutter/src/material/list_tile_theme.dartListTileThemeDataMaterialTapTargetSizepackage:flutter/src/material/menu_bar_theme.dartMenuBarThemeDatapackage:flutter/src/material/menu_button_theme.dartMenuButtonThemeDatapackage:flutter/src/material/menu_theme.dartMenuThemeDatapackage:flutter/src/material/navigation_bar_theme.dartNavigationBarThemeDatapackage:flutter/src/material/navigation_drawer_theme.dartNavigationDrawerThemeDatapackage:flutter/src/material/navigation_rail_theme.dartNavigationRailThemeDatapackage:flutter/src/material/outlined_button_theme.dartOutlinedButtonThemeDatapackage:flutter/src/material/page_transitions_theme.dartPageTransitionsThemepackage:flutter/src/foundation/platform.dartTargetPlatformpackage:flutter/src/material/popup_menu_theme.dartPopupMenuThemeDatapackage:flutter/src/material/text_theme.dartTextThemepackage:flutter/src/material/progress_indicator_theme.dartProgressIndicatorThemeDatapackage:flutter/src/material/radio_theme.dartRadioThemeDatapackage:flutter/src/material/scrollbar_theme.dartScrollbarThemeDatapackage:flutter/src/material/search_bar_theme.dartSearchBarThemeDatapackage:flutter/src/material/search_view_theme.dartSearchViewThemeDatapackage:flutter/src/material/segmented_button_theme.dartSegmentedButtonThemeDatapackage:flutter/src/material/slider_theme.dartSliderThemeDatapackage:flutter/src/material/snack_bar_theme.dartSnackBarThemeDatapackage:flutter/src/material/ink_well.dartInteractiveInkFeatureFactorypackage:flutter/src/material/switch_theme.dartSwitchThemeDatapackage:flutter/src/material/tab_bar_theme.dartTabBarThemeDatapackage:flutter/src/material/text_button_theme.dartTextButtonThemeDatapackage:flutter/src/material/text_selection_theme.dartTextSelectionThemeDatapackage:flutter/src/material/time_picker_theme.dartTimePickerThemeDatapackage:flutter/src/material/toggle_buttons_theme.dartToggleButtonsThemeDatapackage:flutter/src/material/tooltip_theme.dartTooltipThemeDatapackage:flutter/src/material/typography.dartTypographyVisualDensityStatefulWidgetStateintListpackage:flutter/src/material/scaffold.dartpackage:flutter/src/material/bottom_navigation_bar.dartpackage:flutter/src/material/colors.dartMaterialAccentColorMaterialColorBottomNavigationBarTypepackage:flutter/src/widgets/bottom_navigation_bar_item.dartBottomNavigationBarItempackage:flutter/src/widgets/safe_area.dartpackage:flutter/src/widgets/basic.dartpackage:flutter/src/painting/edge_insets.dartEdgeInsetspackage:flutter/src/rendering/flex.dartCrossAxisAlignment_GrowableList_literal7package:flutter/src/widgets/text.dartpackage:flutter/src/material/text_field.dartpackage:flutter/src/material/input_decorator.dartInputDecorationpackage:flutter/src/widgets/icon.dartpackage:flutter/src/material/input_border.dartOutlineInputBorderpackage:flutter/src/painting/border_radius.dartBorderRadiuscircularpackage:flutter/src/painting/borders.dartBorderSidepackage:flutter/src/widgets/scroll_view.dartpackage:flutter/src/widgets/icon_data.dartIconDataString_literal3_literal2package:flutter/src/painting/text_style.dartTextStylepackage:flutter/src/widgets/binding.dartrunAppdart:iopackage:video_player/video_player.dartpackage:flutter/src/widgets/page_view.dartPageControllerMappackage:flutter/src/foundation/change_notifier.dartChangeNotifierpackage:flutter/src/widgets/scroll_controller.dartScrollControllernumpackage:flutter/src/painting/basic_types.dartAxisVideoPlayerControllerPatternnetworkUrlUriparsefileFiledart:asyncFutureFunctionpackage:flutter/src/rendering/stack.dartStackFit_literal1package:flutter/src/widgets/container.dartVideoPlayerValueValueNotifierpackage:flutter/src/widgets/gesture_detector.dartpackage:flutter/src/painting/box_fit.dartBoxFitSizedouble_literal5package:flutter/src/material/bottom_sheet.dartshowModalBottomSheetMainAxisSizepackage:flutter/src/material/circle_avatar.dartpackage:flutter/src/material/elevated_button.dartpackage:flutter/src/widgets/navigator.dartNavigatorpoppushpackage:flutter/src/material/page.dartMaterialPageRoutepackage:flutter/src/painting/text_painter.dartTextOverflowpackage:flutter/src/material/icon_button.dartpackage:flutter/src/widgets/editable_text.dartTextEditingControlleronlypackage:flutter/src/widgets/media_query.dartMediaQueryofMediaQueryDatapackage:flutter/src/material/divider.dart_literal4package:flutter/src/material/list_tile.dartpackage:image_picker/image_picker.dartImagePickerpackage:cross_file/src/types/io.dartXFilepackage:image_picker_platform_interface/src/types/image_source.dartImageSourceDurationpackage:image_picker_platform_interface/src/types/camera_device.dartCameraDeviceScaffoldMessengerpackage:flutter/src/material/snack_bar.dartpackage:flutter/src/animation/animation_style.dartAnimationStyleScaffoldFeatureControllerSnackBarClosedReasonScaffoldMessengerStatepackage:flutter/src/widgets/single_child_scroll_view.dartpackage:flutter/src/painting/box_decoration.dartBoxDecorationpackage:flutter/src/painting/box_border.dartBorderallColorSpacepackage:flutter/src/painting/alignment.dartAlignmentRenderObjectWidgetstyleFrompackage:flutter/foundation.dart_ColorScheme&Object&Diagnosticablepackage:flutter/src/foundation/diagnostics.dartDiagnosticableTree_DiagnosticableTree&Object&Diagnosticable_fromARGBC_fromRGBOCEdgeInsetsGeometry_TextStyle&Object&DiagnosticableSingleChildRenderObjectWidgetpackage:flutter/src/material/chip.dartAlignpackage:flutter/src/material/progress_indicator.dartProgressIndicatorParentDataWidgetProxyWidgetFlexibleFlexMultiChildRenderObjectWidgetsymmetric_Override_Enum_nameargbpackage:flutter/src/painting/colors.dartColorSwatch_swatchprimaryonPrimary_primaryContainer_onPrimaryContainer_primaryFixed_primaryFixedDim_onPrimaryFixed_onPrimaryFixedVariantsecondaryonSecondary_secondaryContainer_onSecondaryContainer_secondaryFixed_secondaryFixedDim_onSecondaryFixed_onSecondaryFixedVariant_tertiary_onTertiary_tertiaryContainer_onTertiaryContainer_tertiaryFixed_tertiaryFixedDim_onTertiaryFixed_onTertiaryFixedVarianterror_errorContainer_onErrorContainersurfaceonSurface_surfaceVariant_surfaceDim_surfaceBright_surfaceContainerLowest_surfaceContainerLow_surfaceContainer_surfaceContainerHigh_surfaceContainerHighest_onSurfaceVariant_outline_outlineVariant_shadow_scrim_inverseSurface_onInverseSurface_inversePrimary_surfaceTint_background_onBackgroundlinecolumn_locationcodePointfontFamilyfontPackagematchTextDirectionfontFamilyFallbackfillweightgradeopticalSizeshadowssemanticLabeltextDirectionapplyTextScalingblendModefontWeightactiveIcontooltipsemanticsLabeltopFontWeightinherit_fontFamilyFallback_packagefontSizefontStyleletterSpacingwordSpacingtextBaselineleadingDistributionlocaleforegroundbackgrounddecorationColordecorationStyledecorationThicknessdebugLabelfontFeaturesfontVariationsdatatextSpanstrutStyletextAlignsoftWraptextScaleFactortextScalersemanticsIdentifiertextWidthBasistextHeightBehaviorselectionColorBorderStylestrokeAlignClipavatarlabelStylelabelPaddingsideshapeclipBehaviorfocusNodeautofocusdeleteIcononDeleteddeleteIconColordeleteButtonTooltipMessageelevationsurfaceTintColoravatarBoxConstraintsdeleteIconBoxConstraintschipAnimationStylemouseCursorbackgroundImageforegroundImageonBackgroundImageErroronForegroundImageErrorminRadiusmaxRadiussubtitletrailingisThreeLinedenseselectedColoriconColortextColortitleTextStylesubtitleTextStyleleadingAndTrailingTextStylecontentPaddingenabledonLongPressonFocusChangeselectedtileColorselectedTileColorenableFeedbackhorizontalTitleGapminVerticalPaddingminLeadingWidthminTileHeighttitleAlignmentinternalAddSemanticForOnTapstatesControllerthicknessindentendIndentxywidthFactorheightFactorminimummaintainBottomViewPaddingAlignmentDirectional_defaultBottomSheetScrimBuilderpackage:flutter/src/gestures/recognizer.dartDragStartBehaviorextendBodydrawerBarrierDismissibleextendBodyBehindAppBarappBarfloatingActionButtonfloatingActionButtonLocationfloatingActionButtonAnimatorpersistentFooterButtonspersistentFooterAlignmentpersistentFooterDecorationdraweronDrawerChangedendDraweronEndDrawerChangeddrawerScrimColorbottomSheetScrimBuilderbottomSheetresizeToAvoidBottomInsetdrawerDragStartBehaviordrawerEdgeDragWidthdrawerEnableOpenDragGestureendDrawerEnableOpenDragGesturerestorationId_ActivityIndicatorType_indicatorTypestrokeWidthstrokeCapconstraintstrackGapyear2023valueColorsemanticsValueFlexFitflexlabelTextfloatingLabelStylehelperhelperTexthelperStylehelperMaxLineshinthintTextDirectionhintMaxLineshintFadeDurationmaintainHintHeightmaintainHintSizemaintainLabelSizeerrorTexterrorStyleerrorMaxLinesfloatingLabelBehaviorfloatingLabelAlignmentisDenseisCollapsedprefixIconConstraintsprefixprefixTextprefixStyleprefixIconColorsuffixIconsuffixsuffixTextsuffixStylesuffixIconColorsuffixIconConstraintscounterTextcountercounterStyleerrorBorderfocusedBorderfocusedErrorBorderdisabledBorderenabledBordersemanticCounterTextalignLabelWithHintinMicrosecondscontentmarginhitTestBehaviorbehavioractionactionOverflowThresholdshowCloseIconcloseIconColordurationpersistanimationonVisibledismissDirectionMainAxisAlignmentVerticalDirectiondirectionmainAxisAlignmentverticalDirectionvm.call-site-attributes.metadata
+60a57cd42d
+,=>
+wV>
+Nfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart
+ //
+// Generated file. Do not edit.
+// This file is generated from template in file `flutter_tools/lib/src/flutter_plugins.dart`.
+// @dart = 3.13
+import 'dart:io'; // flutter_ignore: dart_io_import.
+import 'package:image_picker_android/image_picker_android.dart' as image_picker_android;
+import 'package:path_provider_android/path_provider_android.dart' as path_provider_android;
+import 'package:video_player_android/video_player_android.dart' as video_player_android;
+import 'package:image_picker_ios/image_picker_ios.dart' as image_picker_ios;
+import 'package:path_provider_foundation/path_provider_foundation.dart' as path_provider_foundation;
+import 'package:video_player_avfoundation/video_player_avfoundation.dart' as video_player_avfoundation;
+import 'package:file_selector_linux/file_selector_linux.dart' as file_selector_linux;
+import 'package:image_picker_linux/image_picker_linux.dart' as image_picker_linux;
+import 'package:path_provider_linux/path_provider_linux.dart' as path_provider_linux;
+import 'package:share_plus/share_plus.dart' as share_plus;
+import 'package:url_launcher_linux/url_launcher_linux.dart' as url_launcher_linux;
+import 'package:file_selector_macos/file_selector_macos.dart' as file_selector_macos;
+import 'package:image_picker_macos/image_picker_macos.dart' as image_picker_macos;
+import 'package:path_provider_foundation/path_provider_foundation.dart' as path_provider_foundation;
+import 'package:video_player_avfoundation/video_player_avfoundation.dart' as video_player_avfoundation;
+import 'package:file_selector_windows/file_selector_windows.dart' as file_selector_windows;
+import 'package:image_picker_windows/image_picker_windows.dart' as image_picker_windows;
+import 'package:path_provider_windows/path_provider_windows.dart' as path_provider_windows;
+import 'package:share_plus/share_plus.dart' as share_plus;
+import 'package:url_launcher_windows/url_launcher_windows.dart' as url_launcher_windows;
+@pragma('vm:entry-point')
+class _PluginRegistrant {
+  @pragma('vm:entry-point')
+  static void register() {
+    if (Platform.isAndroid) {
+      try {
+        image_picker_android.ImagePickerAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_android.PathProviderAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_android.AndroidVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isIOS) {
+      try {
+        image_picker_ios.ImagePickerIOS.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_ios` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_foundation.PathProviderFoundation.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_foundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_avfoundation.AVFoundationVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_avfoundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isLinux) {
+      try {
+        file_selector_linux.FileSelectorLinux.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_linux.ImagePickerLinux.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_linux.PathProviderLinux.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        share_plus.SharePlusLinuxPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        url_launcher_linux.UrlLauncherLinux.registerWith();
+      } catch (err) {
+        print(
+          '`url_launcher_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isMacOS) {
+      try {
+        file_selector_macos.FileSelectorMacOS.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_macos.ImagePickerMacOS.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_foundation.PathProviderFoundation.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_foundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        video_player_avfoundation.AVFoundationVideoPlayer.registerWith();
+      } catch (err) {
+        print(
+          '`video_player_avfoundation` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    } else if (Platform.isWindows) {
+      try {
+        file_selector_windows.FileSelectorWindows.registerWith();
+      } catch (err) {
+        print(
+          '`file_selector_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        image_picker_windows.ImagePickerWindows.registerWith();
+      } catch (err) {
+        print(
+          '`image_picker_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        path_provider_windows.PathProviderWindows.registerWith();
+      } catch (err) {
+        print(
+          '`path_provider_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        share_plus.SharePlusWindowsPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`share_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+      try {
+        url_launcher_windows.UrlLauncherWindows.registerWith();
+      } catch (err) {
+        print(
+          '`url_launcher_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+    }
+  }
+5Y\YMehVSV;SVSeh\Y\;Y
+Nfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart
+C!D"E
+F$*%G
+*'H
+I)J**+G
+K-L.*/G"M
+N2*3G
+O5P6*7G
+Q9R:*;G"S
+T>*?G
+UA*BG
+VDWE*FG
+XHYI*JG
+ZL*MG"[
+\P*QG
+]S*TG"^
+_W*XG
+`Z*[G
+a]b^*_G
+cadb*cG
+ee*fG
++h@if
+gkhki
+)=Me~
+image_picker_androidpath_provider_androidvideo_player_androidimage_picker_iospath_provider_foundationvideo_player_avfoundationfile_selector_linuximage_picker_linuxpath_provider_linuxshare_plusurl_launcher_linuxfile_selector_macosimage_picker_macosfile_selector_windowsimage_picker_windowspath_provider_windowsurl_launcher_windows_PluginRegistrantregistererr`image_picker_android` threw an error: . The app may not function as expected until you remove this plugin from pubspec.yaml`path_provider_android` threw an error: `video_player_android` threw an error: `image_picker_ios` threw an error: `path_provider_foundation` threw an error: `video_player_avfoundation` threw an error: `file_selector_linux` threw an error: `image_picker_linux` threw an error: `path_provider_linux` threw an error: `share_plus` threw an error: `url_launcher_linux` threw an error: `file_selector_macos` threw an error: `image_picker_macos` threw an error: `file_selector_windows` threw an error: `image_picker_windows` threw an error: `path_provider_windows` threw an error: `url_launcher_windows` threw an error: vm:entry-pointfile:///workspaces/Vibepk/.dart_tool/flutter_build/dart_plugin_registrant.dart@methods@constructorspackage:vibepk/main.dartmaindart:iopackage:image_picker_android/image_picker_android.dartpackage:path_provider_android/path_provider_android.dartpackage:video_player_android/video_player_android.dartpackage:image_picker_ios/image_picker_ios.dartpackage:path_provider_foundation/path_provider_foundation.dartpackage:video_player_avfoundation/video_player_avfoundation.dartpackage:file_selector_linux/file_selector_linux.dartpackage:image_picker_linux/image_picker_linux.dartpackage:path_provider_linux/path_provider_linux.dartpackage:share_plus/share_plus.dartpackage:url_launcher_linux/url_launcher_linux.dartpackage:file_selector_macos/file_selector_macos.dartpackage:image_picker_macos/image_picker_macos.dartpackage:file_selector_windows/file_selector_windows.dartpackage:image_picker_windows/image_picker_windows.dartpackage:path_provider_windows/path_provider_windows.dartpackage:url_launcher_windows/url_launcher_windows.dartdart:corepragmaObjectPlatform@gettersisAndroidImagePickerAndroidregisterWithprintpackage:path_provider_android/src/path_provider_android_real.dartPathProviderAndroidpackage:video_player_android/src/android_video_player.dartAndroidVideoPlayerisIOSImagePickerIOSpackage:path_provider_foundation/src/path_provider_foundation_real.dartPathProviderFoundationpackage:video_player_avfoundation/src/avfoundation_video_player.dartAVFoundationVideoPlayerisLinuxFileSelectorLinuxImagePickerLinuxpackage:path_provider_linux/src/path_provider_linux.dartPathProviderLinuxpackage:share_plus/src/share_plus_linux.dartSharePlusLinuxPluginUrlLauncherLinuxisMacOSFileSelectorMacOSImagePickerMacOSisWindowsFileSelectorWindowsImagePickerWindowspackage:path_provider_windows/src/path_provider_windows_real.dartPathProviderWindowspackage:share_plus/src/share_plus_windows.dartSharePlusWindowsPluginUrlLauncherWindows_@fieldsnameoptions
