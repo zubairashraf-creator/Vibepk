@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'video_feed_clean.dart';
+import 'upload_screen.dart';
+import 'real_video_feed.dart';
 
 void main() {
   runApp(const VibePKApp());
@@ -207,10 +208,10 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int index = 0;
 
-  final screens = const [
+  List<Widget> get screens => [
     FeedScreen(),
     SearchScreen(),
-    UploadScreen(),
+    UploadScreen(onPosted: () => setState(() => index = 0)),
     AlertsScreen(),
     ProfileScreen(),
   ];
@@ -263,7 +264,7 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const VideoFeedClean();
+    return const RealVideoFeed();
   }
 }
 
@@ -275,20 +276,6 @@ class SearchScreen extends StatelessWidget {
     return const Center(
       child: Text(
         'Search VibePK',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class UploadScreen extends StatelessWidget {
-  const UploadScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Create Your Vibe',
         style: TextStyle(fontSize: 24),
       ),
     );
