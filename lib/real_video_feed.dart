@@ -101,6 +101,11 @@ class _RealVideoFeedState extends State<RealVideoFeed> {
                   _topTab('Following', false),
                   const SizedBox(width: 24),
                   _topTab('Community', false),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (_) => const VibeSearchScreen())); },
+                    icon: const Icon(Icons.search, color: Colors.white, size: 28),
+                  ),
                 ],
               ),
             ),
@@ -146,6 +151,7 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
   bool isLiked = false;
   bool isSaved = false;
   bool isFollowing = false;
+  bool showLikeAnimation = false;
   int likes = 1248;
 
   final TextEditingController _commentController = TextEditingController();
@@ -196,12 +202,14 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
   }
 
   void _doubleTapLike() {
-    if (!isLiked) {
-      setState(() {
-        isLiked = true;
-        likes++;
-      });
-    }
+    setState(() {
+      isLiked = true;
+      likes = likes < 1249 ? likes + 1 : likes;
+      showLikeAnimation = true;
+    });
+    Future.delayed(const Duration(milliseconds: 700), () {
+      if (mounted) setState(() => showLikeAnimation = false);
+    });
   }
 
   void _toggleSave() {
@@ -426,6 +434,14 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
             ),
           ),
 
+        if (showLikeAnimation)
+          const Center(
+            child: Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: 120,
+            ),
+          ),
         if (!_controller.value.isInitialized)
           const Center(
             child: Icon(
@@ -567,6 +583,86 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class VibeSearchScreen extends StatelessWidget {
+  const VibeSearchScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Search VibePK',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: 'Search creators, videos, hashtags...',
+                hintStyle: const TextStyle(color: Colors.white54),
+                prefixIcon: const Icon(Icons.search, color: Colors.purpleAccent),
+                filled: true,
+                fillColor: const Color(0xFF151515),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 25),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Popular on VibePK',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            const ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.deepPurple,
+                child: Icon(Icons.person, color: Colors.white),
+              ),
+              title: Text(
+                'VibePK Creator',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                '@vibepk_creator',
+                style: TextStyle(color: Colors.white54),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.tag, color: Colors.purpleAccent),
+              title: Text(
+                '#Pakistan',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.tag, color: Colors.purpleAccent),
+              title: Text(
+                '#VibePK',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

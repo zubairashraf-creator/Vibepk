@@ -87,14 +87,14 @@ class _SplashScreenState extends State<SplashScreen>
                   vertical: 38,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.07),
+                  color: Colors.white.withValues(alpha: 0.07),
                   borderRadius: BorderRadius.circular(32),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withValues(alpha: 0.15),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.purpleAccent.withOpacity(0.25),
+                      color: Colors.purpleAccent.withValues(alpha: 0.25),
                       blurRadius: 45,
                       spreadRadius: 4,
                     ),
@@ -116,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blueAccent.withOpacity(0.5),
+                            color: Colors.blueAccent.withValues(alpha: 0.5),
                             blurRadius: 30,
                           ),
                         ],
@@ -138,10 +138,10 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Pakistan Short Video Community',
+                      'Pakistan’s Best • Long & Short Videos • Create • Share • Discover',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         color: Colors.white70,
                         letterSpacing: 0.5,
                       ),
@@ -154,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Created by',
+                      'Developed & Owned by',
                       style: TextStyle(
                         color: Colors.white54,
                         fontSize: 13,
@@ -210,9 +210,9 @@ class _MainNavigationState extends State<MainNavigation> {
 
   List<Widget> get screens => [
     FeedScreen(),
-    SearchScreen(),
+    FriendsScreen(),
     UploadScreen(onPosted: () => setState(() => index = 0)),
-    AlertsScreen(),
+    InboxScreen(),
     ProfileScreen(),
   ];
 
@@ -223,7 +223,7 @@ class _MainNavigationState extends State<MainNavigation> {
       body: screens[index],
       bottomNavigationBar: NavigationBar(
         backgroundColor: const Color(0xFF080808),
-        indicatorColor: Colors.purple.withOpacity(0.25),
+        indicatorColor: Colors.purple.withValues(alpha: 0.25),
         selectedIndex: index,
         onDestinationSelected: (value) {
           setState(() => index = value);
@@ -235,8 +235,8 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.people_outline),
+            label: 'Friends',
           ),
           NavigationDestination(
             icon: Icon(Icons.add_box_outlined),
@@ -244,9 +244,9 @@ class _MainNavigationState extends State<MainNavigation> {
             label: 'Create',
           ),
           NavigationDestination(
-            icon: Icon(Icons.notifications_none),
-            selectedIcon: Icon(Icons.notifications),
-            label: 'Alerts',
+            icon: Icon(Icons.inbox_outlined),
+            selectedIcon: Icon(Icons.inbox),
+            label: 'Inbox',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),
@@ -268,29 +268,287 @@ class FeedScreen extends StatelessWidget {
   }
 }
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+class FriendsScreen extends StatefulWidget {
+  const FriendsScreen({super.key});
+
+  @override
+  State<FriendsScreen> createState() => _FriendsScreenState();
+}
+
+class _FriendsScreenState extends State<FriendsScreen> {
+  final Set<String> following = {};
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Search VibePK',
-        style: TextStyle(fontSize: 24),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Friends',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const Text(
+            'Find Friends',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 18),
+          _friendTile(
+            context,
+            'VibePK Creator',
+            '@vibepk_creator',
+          ),
+          _friendTile(
+            context,
+            'Pakistan Vibes',
+            '@pakistan_vibes',
+          ),
+          _friendTile(
+            context,
+            'VibePK Community',
+            '@vibepk_community',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _friendTile(
+    BuildContext context,
+    String name,
+    String username,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF121212),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 28,
+            backgroundColor: Colors.deepPurple,
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  username,
+                  style: const TextStyle(color: Colors.white60),
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                if (following.contains(username)) {
+                  following.remove(username);
+                } else {
+                  following.add(username);
+                }
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: following.contains(username)
+                  ? const Color(0xFF303030)
+                  : Colors.deepPurpleAccent,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(
+              following.contains(username) ? 'Following' : 'Follow',
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class AlertsScreen extends StatelessWidget {
-  const AlertsScreen({super.key});
+class InboxScreen extends StatelessWidget {
+  const InboxScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Notifications',
-        style: TextStyle(fontSize: 24),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Inbox',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF121212),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  radius: 24,
+                  backgroundColor: Colors.deepPurple,
+                  child: Icon(Icons.person, color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'On your mind...',
+                    style: TextStyle(color: Colors.white60, fontSize: 15),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text('Create'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurpleAccent,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 22),
+          const Text(
+            'Activity',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 14),
+          _inboxItem(
+            Icons.person_add,
+            'New follower',
+            'VibePK Creator started following you',
+          ),
+          _inboxItem(
+            Icons.favorite,
+            'Likes',
+            'Someone liked your Vibe',
+          ),
+          _inboxItem(
+            Icons.comment,
+            'Comments',
+            'Someone commented on your Vibe',
+          ),
+          _inboxItem(
+            Icons.share,
+            'Shares',
+            'Your Vibe was shared',
+          ),
+          const SizedBox(height: 22),
+          const Text(
+            'Say Hi',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          _inboxItem(
+            Icons.waving_hand,
+            'Say hi to your friends',
+            'Start a conversation with your VibePK friends',
+          ),
+          const SizedBox(height: 22),
+          const Text(
+            'VibePK Updates',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          _inboxItem(
+            Icons.notifications,
+            'System notifications',
+            'Important updates from VibePK',
+          ),
+          _inboxItem(
+            Icons.auto_awesome,
+            'Creator updates',
+            'New features and creator news',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _inboxItem(
+    IconData icon,
+    String title,
+    String subtitle,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFF121212),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: Colors.deepPurple,
+            child: Icon(icon, color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.white60,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -303,64 +561,204 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.person_outline_rounded,
-                  size: 85,
-                  color: Colors.purpleAccent,
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Welcome to VibePK',
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Login to follow creators,\nlike, comment, save and share Vibes.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white60,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const LoginScreen(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'VibePK',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: const Color(0xFF151515),
+                builder: (context) {
+                  return SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.settings, color: Colors.white),
+                          title: const Text('Settings',
+                              style: TextStyle(color: Colors.white)),
+                          onTap: () => Navigator.pop(context),
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
+                        ListTile(
+                          leading: const Icon(Icons.lock_outline, color: Colors.white),
+                          title: const Text('Privacy',
+                              style: TextStyle(color: Colors.white)),
+                          onTap: () => Navigator.pop(context),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.account_circle_outlined,
+                              color: Colors.white),
+                          title: const Text('Account',
+                              style: TextStyle(color: Colors.white)),
+                          onTap: () => Navigator.pop(context),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.help_outline, color: Colors.white),
+                          title: const Text('Help & Support',
+                              style: TextStyle(color: Colors.white)),
+                          onTap: () => Navigator.pop(context),
+                        ),
+                      ],
                     ),
-                    child: const Text(
-                      'Login / Create Account',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
+        children: [
+          const CircleAvatar(
+            radius: 48,
+            backgroundColor: Colors.deepPurple,
+            child: Icon(Icons.person, size: 55, color: Colors.white),
+          ),
+          const SizedBox(height: 12),
+          const Center(
+            child: Text(
+              'VibePK User',
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
           ),
+          const SizedBox(height: 4),
+          const Center(
+            child: Text(
+              '@vibepk_user',
+              style: TextStyle(color: Colors.white60),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              _ProfileStat(number: '47', label: 'Following'),
+              _ProfileStat(number: '332', label: 'Followers'),
+              _ProfileStat(number: '8K', label: 'Likes'),
+            ],
+          ),
+          const SizedBox(height: 18),
+          OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.purpleAccent),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: const Text(
+              'Edit Profile',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          const SizedBox(height: 18),
+          const Text(
+            'VibePK creator',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Create • Share • Discover\nPakistan Short Video Community 🇵🇰',
+            style: TextStyle(color: Colors.white70),
+          ),
+          const SizedBox(height: 24),
+          const Row(
+            children: [
+              _ProfileTab(icon: Icons.grid_on, label: 'Posts'),
+              _ProfileTab(icon: Icons.auto_awesome, label: 'New'),
+              _ProfileTab(icon: Icons.bookmark_border, label: 'Drafts'),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Container(
+            height: 170,
+            decoration: BoxDecoration(
+              color: const Color(0xFF121212),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: Colors.white12),
+            ),
+            child: const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.video_library_outlined,
+                      size: 48, color: Colors.purpleAccent),
+                  SizedBox(height: 10),
+                  Text(
+                    'Your Vibes will appear here',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileStat extends StatelessWidget {
+  final String number;
+  final String label;
+
+  const _ProfileStat({
+    required this.number,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: const TextStyle(
+            fontSize: 19,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white60, fontSize: 13),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileTab extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _ProfileTab({
+    required this.icon,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(icon, color: Colors.white),
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+        ],
       ),
     );
   }
