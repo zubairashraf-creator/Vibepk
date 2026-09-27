@@ -208,19 +208,13 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int index = 0;
 
-  late final List<Widget> screens;
-
-  @override
-  void initState() {
-    super.initState();
-    screens = [
-      const FeedScreen(),
-      const FriendsScreen(),
-      UploadScreen(onPosted: () => setState(() => index = 0)),
-      const InboxScreen(),
-      const ProfileScreen(),
-    ];
-  }
+  List<Widget> get screens => [
+    FeedScreen(),
+    FriendsScreen(),
+    UploadScreen(onPosted: () => setState(() => index = 0)),
+    InboxScreen(),
+    ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
