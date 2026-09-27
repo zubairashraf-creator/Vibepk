@@ -56,24 +56,6 @@ class _UploadScreenState extends State<UploadScreen> {
     });
   }
 
-  Widget _hashtagChip(String hashtag) {
-    return ActionChip(
-      label: Text(hashtag),
-      onPressed: () {
-        final current = _captionController.text.trim();
-        if (current.isEmpty) {
-          _captionController.text = hashtag;
-        } else if (!current.contains(hashtag)) {
-          _captionController.text = '$current $hashtag';
-        }
-        _captionController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _captionController.text.length),
-        );
-        setState(() {});
-      },
-    );
-  }
-
   void _postVibe() {
     if (_selectedVideo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -230,12 +212,12 @@ class _UploadScreenState extends State<UploadScreen> {
 
               Wrap(
                 spacing: 8,
-                children: [
-                  _hashtagChip('#Pakistan'),
-                  _hashtagChip('#VibePK'),
-                  _hashtagChip('#Trending'),
-                  _hashtagChip('#Funny'),
-                  _hashtagChip('#Music'),
+                children: const [
+                  Chip(label: Text('#Pakistan')),
+                  Chip(label: Text('#VibePK')),
+                  Chip(label: Text('#Trending')),
+                  Chip(label: Text('#Funny')),
+                  Chip(label: Text('#Music')),
                 ],
               ),
 
