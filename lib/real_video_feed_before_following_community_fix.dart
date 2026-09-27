@@ -14,7 +14,6 @@ class RealVideoFeed extends StatefulWidget {
 
 class _RealVideoFeedState extends State<RealVideoFeed> {
   final PageController _pageController = PageController();
-  int selectedTab = 0;
   final VibePostStore _postStore = VibePostStore.instance;
 
   final List<Map<String, String>> videos = [
@@ -56,8 +55,7 @@ class _RealVideoFeedState extends State<RealVideoFeed> {
   @override
   Widget build(BuildContext context) {
     final posts = _postStore.posts;
-    final showPosts = selectedTab == 2;
-    final totalItems = videos.length + (showPosts ? posts.length : 0);
+    final totalItems = videos.length + posts.length;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -98,11 +96,11 @@ class _RealVideoFeedState extends State<RealVideoFeed> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _topTab('For You', selectedTab == 0, () => setState(() => selectedTab = 0)),
+                  _topTab('For You', true),
                   const SizedBox(width: 24),
-                  _topTab('Following', selectedTab == 1, () => setState(() => selectedTab = 1)),
+                  _topTab('Following', false),
                   const SizedBox(width: 24),
-                  _topTab('Community', selectedTab == 2, () => setState(() => selectedTab = 2)),
+                  _topTab('Community', false),
                   const SizedBox(width: 8),
                   IconButton(
                     onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (_) => const VibeSearchScreen())); },
@@ -117,16 +115,13 @@ class _RealVideoFeedState extends State<RealVideoFeed> {
     );
   }
 
-  Widget _topTab(String title, bool selected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 15,
-          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-        ),
+  Widget _topTab(String title, bool selected) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: selected ? FontWeight.bold : FontWeight.normal,
       ),
     );
   }
