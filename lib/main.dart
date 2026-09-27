@@ -138,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Pakistan’s Best • Long & Short Videos • Create • Share • Discover',
+                      'Pakistan’s Best • Long & Short Videos',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 17,
@@ -154,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Developed & Owned by',
+                      'Developed, Owned & Designed by',
                       style: TextStyle(
                         color: Colors.white54,
                         fontSize: 13,
@@ -171,7 +171,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 5),
                     const Text(
-                      'Dharema, Sargodha, Pakistan',
+                      'From Dharema, Sargodha, Pakistan',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white70,
