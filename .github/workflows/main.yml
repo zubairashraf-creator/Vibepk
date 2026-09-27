@@ -34,6 +34,8 @@ jobs:
         run: flutter build apk --debug -t lib/main.dart
 
       - name: Verify APK content
+      - name: Verify SplashScreen in APK
+        run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Pakistan.s Best|Long . Short Video Community|For Everyone|Muhammad Zubair Ashraf|From Dharema, Sargodha, Pakistan"
         run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Friends|Inbox|Profile|RealVideoFeed|Home|Search|Alerts" | head -30 || true
 
       - name: Publish direct APK
