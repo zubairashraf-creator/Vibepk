@@ -57,7 +57,8 @@ class _UploadScreenState extends State<UploadScreen> {
   }
 
   Widget _hashtagChip(String hashtag) {
-    return ElevatedButton(
+    return ActionChip(
+      label: Text(hashtag),
       onPressed: () {
         final current = _captionController.text.trim();
         if (current.isEmpty) {
@@ -70,7 +71,6 @@ class _UploadScreenState extends State<UploadScreen> {
         );
         setState(() {});
       },
-      child: Text(hashtag),
     );
   }
 
