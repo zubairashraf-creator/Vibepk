@@ -28,7 +28,7 @@ jobs:
         run: flutter pub get
 
       - name: Verify source used for build
-        run: grep -n "Following" lib/main.dart
+        run: grep -n "Long & Short Video Community" lib/main.dart
 
       - name: Build APK
         run: flutter build apk --debug -t lib/main.dart
