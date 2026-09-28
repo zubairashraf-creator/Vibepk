@@ -37,7 +37,7 @@ jobs:
         run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Friends|Inbox|Profile|RealVideoFeed|Home|Search|Alerts" | head -30 || true
 
       - name: Verify SplashScreen in APK
-        run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Pakistan.s Best|Long . Short Video Community|For Everyone|Muhammad Zubair Ashraf|From Dharema, Sargodha, Pakistan" || true
+        run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Pakistan.s Best|Long . Short Video Community|For Everyone|Muhammad Zubair Ashraf|From Dharema, Sargodha, Pakistan"
 
       - name: Publish direct APK
         uses: softprops/action-gh-release@v3
