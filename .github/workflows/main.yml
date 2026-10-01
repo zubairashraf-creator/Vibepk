@@ -1,0 +1,53 @@
+name: Build VibePK APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.5'
+          channel: stable
+          cache: false
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Verify source used for build
+        run: grep -n "Following" lib/main.dart
+
+      - name: Build APK
+        run: flutter build apk --debug -t lib/main.dart
+
+      - name: Verify APK content
+        run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Friends|Inbox|Profile|RealVideoFeed|Home|Search|Alerts" | head -30 || true
+
+      - name: Verify SplashScreen in APK
+        run: strings build/app/outputs/flutter-apk/app-debug.apk | grep -E "Pakistan.s Best|Long . Short Video Community|For Everyone|Muhammad Zubair Ashraf|From Dharema, Sargodha, Pakistan" || true
+
+      - name: Publish direct APK
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: latest-apk
+          name: VibePK Latest APK
+          files: build/app/outputs/flutter-apk/app-debug.apk
+          overwrite_files: true
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VibePK-debug-APK
+          path: build/app/outputs/flutter-apk/app-debug.apk
